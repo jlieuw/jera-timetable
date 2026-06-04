@@ -3,6 +3,3 @@ dist/
 .deploy/
 *.html
 !index.html
-!thu.html
-!fri.html
-!sat.html
