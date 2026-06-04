@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#0a0a0a" />
+  <title>Jera On Air 2026 — Timetable</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <header class="app-header">
+    <div class="title-row">
+      <h1>JERA ON AIR <span class="year">2026</span></h1>
+      <div class="header-actions">
+        <button id="likedOnlyBtn" class="toggle-btn" aria-pressed="false" title="Toon alleen favorieten">
+          <span class="heart">❤</span> <span class="lbl">Alleen favorieten</span>
+        </button>
+        <button id="viewToggle" class="toggle-btn" title="Wissel weergave">
+          <span class="view-lbl">Lijst</span>
+        </button>
+      </div>
+    </div>
+
+    <nav class="day-tabs" id="dayTabs" role="tablist"></nav>
+
+    <div class="stage-filters" id="stageFilters" aria-label="Filter stages"></div>
+  </header>
+
+  <main id="main">
+    <section id="gridView" class="view grid-view" hidden></section>
+    <section id="listView" class="view list-view"></section>
+    <p id="emptyMsg" class="empty-msg" hidden>Geen optredens gevonden met deze filters.</p>
+  </main>
+
+  <footer class="app-footer">
+    <p>Onofficiële fan-app · Data via <a href="https://www.jeraonair.nl/nl/timetable/" target="_blank" rel="noopener">jeraonair.nl</a> · Favorieten worden lokaal in je browser bewaard.</p>
+  </footer>
+
+  <script src="data.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
