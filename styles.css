@@ -425,6 +425,61 @@ main {
   font-size: 12px;
 }
 
+/* ====== Festival map overlay ====== */
+.map-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  background: rgba(0, 0, 0, 0.95);
+  display: flex;
+  align-items: stretch;
+  justify-content: stretch;
+  padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
+}
+
+.map-scroll {
+  flex: 1;
+  overflow: auto;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pinch-zoom;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.map-image {
+  max-width: 100%;
+  max-height: 100%;
+  height: auto;
+  width: auto;
+  display: block;
+  user-select: none;
+  -webkit-user-drag: none;
+}
+
+.map-close {
+  position: absolute;
+  top: calc(env(safe-area-inset-top, 0) + 10px);
+  right: calc(env(safe-area-inset-right, 0) + 10px);
+  z-index: 2;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+  background: var(--bg-2);
+  color: var(--fg);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.6);
+}
+.map-close:hover { border-color: var(--accent); }
+
+body.map-open { overflow: hidden; }
+
 /* ====== Responsive switches ====== */
 @media (max-width: 720px) {
   .title-row h1 { font-size: 16px; }

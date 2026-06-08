@@ -347,5 +347,24 @@
     render();
   });
 
+  // Festival map overlay
+  const mapOverlay = document.getElementById('mapOverlay');
+  const openMap = () => {
+    mapOverlay.hidden = false;
+    document.body.classList.add('map-open');
+  };
+  const closeMap = () => {
+    mapOverlay.hidden = true;
+    document.body.classList.remove('map-open');
+  };
+  document.getElementById('mapBtn').addEventListener('click', openMap);
+  document.getElementById('mapCloseBtn').addEventListener('click', closeMap);
+  mapOverlay.addEventListener('click', (e) => {
+    if (e.target === mapOverlay) closeMap();
+  });
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && !mapOverlay.hidden) closeMap();
+  });
+
   render();
 })();

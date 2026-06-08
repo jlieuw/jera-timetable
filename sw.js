@@ -1,6 +1,6 @@
 // Service worker for Jera On Air timetable PWA.
 // Bump CACHE_VERSION whenever app shell or data changes to force update.
-const CACHE_VERSION = 'joa-v1';
+const CACHE_VERSION = 'joa-v2';
 const APP_SHELL = [
   './',
   'index.html',
@@ -10,7 +10,8 @@ const APP_SHELL = [
   'manifest.webmanifest',
   'icon-192.png',
   'icon-512.png',
-  'apple-touch-icon.png'
+  'apple-touch-icon.png',
+  'festival_map.jpg'
 ];
 
 self.addEventListener('install', (event) => {

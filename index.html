@@ -25,6 +25,9 @@
         <button id="viewToggle" class="toggle-btn" title="Wissel weergave">
           <span class="view-lbl">Lijst</span>
         </button>
+        <button id="mapBtn" class="toggle-btn" title="Toon festivalkaart" aria-haspopup="dialog">
+          <span aria-hidden="true">🗺</span> <span class="lbl">Kaart</span>
+        </button>
       </div>
     </div>
 
@@ -42,6 +45,13 @@
   <footer class="app-footer">
     <p>Onofficiële fan-app · Data via <a href="https://www.jeraonair.nl/nl/timetable/" target="_blank" rel="noopener">jeraonair.nl</a> · Favorieten worden lokaal in je browser bewaard.</p>
   </footer>
+
+  <div id="mapOverlay" class="map-overlay" role="dialog" aria-modal="true" aria-label="Festivalkaart" hidden>
+    <button id="mapCloseBtn" class="map-close" type="button" aria-label="Sluit kaart">×</button>
+    <div class="map-scroll">
+      <img src="festival_map.jpg" alt="Jera On Air 2026 festivalkaart" class="map-image" />
+    </div>
+  </div>
 
   <script src="data.js"></script>
   <script src="app.js"></script>
