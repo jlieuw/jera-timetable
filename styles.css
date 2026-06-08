@@ -553,6 +553,9 @@ main {
   background: var(--pin-color, var(--accent));
   color: #0a0a0a;
 }
+.map-pin.active .map-pin-badge {
+  color: #0a0a0a;
+}
 
 /* Slide-up stage schedule panel */
 .map-stage-panel {

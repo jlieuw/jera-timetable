@@ -1,6 +1,6 @@
 // Service worker for Jera On Air timetable PWA.
 // Bump CACHE_VERSION whenever app shell or data changes to force update.
-const CACHE_VERSION = 'joa-v4';
+const CACHE_VERSION = 'joa-v5';
 const APP_SHELL = [
   './',
   'index.html',
