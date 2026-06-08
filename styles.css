@@ -437,6 +437,39 @@ main {
   padding: env(safe-area-inset-top, 0) env(safe-area-inset-right, 0) env(safe-area-inset-bottom, 0) env(safe-area-inset-left, 0);
 }
 
+.map-day-tabs {
+  position: absolute;
+  top: calc(env(safe-area-inset-top, 0) + 12px);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 4;
+  display: flex;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.6);
+  padding: 5px;
+  border-radius: 999px;
+  border: 1px solid var(--border);
+}
+
+.map-day-tab {
+  background: transparent;
+  border: none;
+  color: var(--fg);
+  font-family: inherit;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  padding: 7px 16px;
+  border-radius: 999px;
+  cursor: pointer;
+  min-width: 52px;
+}
+.map-day-tab:hover { background: rgba(255, 255, 255, 0.12); }
+.map-day-tab.active {
+  background: var(--accent);
+  color: #0a0a0a;
+}
+
 .map-scroll {
   flex: 1;
   overflow: auto;

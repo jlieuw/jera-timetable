@@ -364,7 +364,29 @@
   const mapOverlay = document.getElementById('mapOverlay');
   const mapPins = document.getElementById('mapPins');
   const mapStagePanel = document.getElementById('mapStagePanel');
+  const mapDayTabs = document.getElementById('mapDayTabs');
   let mapSelectedStage = null;
+
+  function renderMapDayTabs() {
+    mapDayTabs.innerHTML = '';
+    for (const d of data.days) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'map-day-tab' + (d.key === state.day ? ' active' : '');
+      btn.setAttribute('role', 'tab');
+      btn.setAttribute('aria-selected', d.key === state.day ? 'true' : 'false');
+      btn.textContent = d.key;
+      btn.addEventListener('click', () => {
+        state.day = d.key;
+        localStorage.setItem(LS_KEYS.day, d.key);
+        renderDayTabs();
+        renderMapDayTabs();
+        renderMapPins();
+        renderMapStagePanel();
+      });
+      mapDayTabs.appendChild(btn);
+    }
+  }
 
   function renderMapPins() {
     mapPins.innerHTML = '';
@@ -441,6 +463,7 @@
 
   const openMap = () => {
     mapSelectedStage = null;
+    renderMapDayTabs();
     renderMapPins();
     renderMapStagePanel();
     mapOverlay.hidden = false;
