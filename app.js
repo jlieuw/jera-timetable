@@ -13,6 +13,19 @@
     nightingale: 'Nightingale',
   };
 
+  // Approximate stage pin positions on festival_map.jpg as percentages
+  // of the image (left%, top%). Tweak if the map art changes.
+  const STAGE_MAP_POS = {
+    hawk: { left: 21, top: 22 },
+    vulture: { left: 50, top: 20 },
+    eagle: { left: 69, top: 25 },
+    buzzard: { left: 91, top: 31 },
+    raven: { left: 9, top: 30 },
+    sparrow: { left: 25, top: 38 },
+    nightingale: { left: 42, top: 48 },
+    quail: { left: 48, top: 46 },
+  };
+
   // ----- Persistent state (localStorage) -----
   const LS_KEYS = {
     likes: 'joa2026.likes',
@@ -349,7 +362,87 @@
 
   // Festival map overlay
   const mapOverlay = document.getElementById('mapOverlay');
+  const mapPins = document.getElementById('mapPins');
+  const mapStagePanel = document.getElementById('mapStagePanel');
+  let mapSelectedStage = null;
+
+  function renderMapPins() {
+    mapPins.innerHTML = '';
+    for (const s of data.stages) {
+      const pos = STAGE_MAP_POS[s];
+      if (!pos) continue;
+      const pin = document.createElement('button');
+      pin.type = 'button';
+      pin.className = 'map-pin' + (mapSelectedStage === s ? ' active' : '');
+      pin.style.left = pos.left + '%';
+      pin.style.top = pos.top + '%';
+      pin.style.setProperty('--pin-color', `var(--${s})`);
+      pin.dataset.stage = s;
+      const likeCount = mapStageLikeCount(s);
+      pin.innerHTML =
+        `<span class="map-pin-dot"></span>` +
+        `<span class="map-pin-label">${escapeHtml(STAGE_LABELS[s])}` +
+        (likeCount ? ` <span class="map-pin-badge">❤${likeCount}</span>` : '') +
+        `</span>`;
+      pin.addEventListener('click', (e) => {
+        e.stopPropagation();
+        selectMapStage(s);
+      });
+      mapPins.appendChild(pin);
+    }
+  }
+
+  function mapStageLikeCount(stage) {
+    const day = getDay();
+    const acts = (day.stages[stage] || []);
+    let n = 0;
+    for (const a of acts) if (state.likes.has(actKey(day.key, a))) n++;
+    return n;
+  }
+
+  function selectMapStage(stage) {
+    mapSelectedStage = stage;
+    renderMapPins();
+    renderMapStagePanel();
+  }
+
+  function renderMapStagePanel() {
+    if (!mapSelectedStage) {
+      mapStagePanel.hidden = true;
+      mapStagePanel.innerHTML = '';
+      return;
+    }
+    const day = getDay();
+    const stage = mapSelectedStage;
+    const acts = (day.stages[stage] || []);
+    const rows = acts.map((a) => {
+      const liked = state.likes.has(actKey(day.key, a));
+      return `<li class="map-act${liked ? ' liked' : ''}">
+        <span class="map-act-time">${a.start} – ${a.end}</span>
+        <span class="map-act-name">${escapeHtml(a.name)}</span>
+        ${liked ? '<span class="map-act-heart" aria-hidden="true">❤</span>' : ''}
+      </li>`;
+    }).join('');
+    mapStagePanel.innerHTML = `
+      <div class="map-panel-head" style="border-color: var(--${stage})">
+        <span class="map-panel-title" style="color: var(--${stage})">${escapeHtml(STAGE_LABELS[stage])}</span>
+        <span class="map-panel-day">${escapeHtml(day.label || day.key)}</span>
+        <button class="map-panel-close" type="button" aria-label="Sluit stage">×</button>
+      </div>
+      <ul class="map-act-list">${rows || '<li class="map-act-empty">Geen optredens op deze dag.</li>'}</ul>
+    `;
+    mapStagePanel.hidden = false;
+    mapStagePanel.querySelector('.map-panel-close').addEventListener('click', () => {
+      mapSelectedStage = null;
+      renderMapPins();
+      renderMapStagePanel();
+    });
+  }
+
   const openMap = () => {
+    mapSelectedStage = null;
+    renderMapPins();
+    renderMapStagePanel();
     mapOverlay.hidden = false;
     document.body.classList.add('map-open');
   };
@@ -360,7 +453,9 @@
   document.getElementById('mapBtn').addEventListener('click', openMap);
   document.getElementById('mapCloseBtn').addEventListener('click', closeMap);
   mapOverlay.addEventListener('click', (e) => {
-    if (e.target === mapOverlay) closeMap();
+    if (e.target === mapOverlay || e.target.classList.contains('map-scroll') || e.target.classList.contains('map-wrap')) {
+      closeMap();
+    }
   });
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape' && !mapOverlay.hidden) closeMap();
